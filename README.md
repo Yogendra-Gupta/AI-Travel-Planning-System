@@ -94,5 +94,41 @@ LangGraph StateGraph (graph.py)
    +--> PostgresSaver -> PostgreSQL checkpoint tables
 
 ---
+---
+<h2><a class="anchor" id="project-structure"></a>Project Structure</h2>
 
+```
+Browser
+   |
+   v
+Streamlit frontend.py
+   |
+   v
+LangGraph StateGraph (graph.py)
+   |
+   +--> supervisor_agent()
+   |       |
+   |       +--> LLM guardrail
+   |       +--> LLM agent selection/constraint extraction
+   |
+   +--> flight_agent() ----> AviationStack MCP ----> AviationStack API
+   |
+   +--> hotel_agent() -----> Tavily MCP ------------> Tavily search
+   |
+   +--> weather_agent() ---> local Weather MCP -----> OpenWeatherMap API
+   |
+   +--> budget_agent() ----> LLM over prior agent output
+   |
+   +--> itinerary_agent() -> LLM -> draft itinerary
+   |
+   +--> human_approval_agent() -> interrupt()
+   |          |
+   |          +--> Streamlit approval form
+   |
+   +--> final_response_agent() -> LLM -> final plan
+   |
+   +--> PostgresSaver -> PostgreSQL checkpoint tables
+```
+
+---
 
