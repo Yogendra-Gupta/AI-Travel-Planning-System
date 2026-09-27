@@ -1,6 +1,6 @@
 # AI-Travel-Planning-System
-------------------------------------------------------------------------------------------------------------------------------------------
-#1. Executive Summary
+
+1. Executive Summary
 
 The AI Travel Planning System is a Python-based multi-agent travel-planning application that uses LangGraph to
 orchestrate specialized workflow nodes and the Model Context Protocol (MCP) to connect the application with external
@@ -16,7 +16,7 @@ The project also integrates LangGraph's PostgreSQL checkpointer for persistent g
 Streamlit frontend streams graph-node updates so users can observe the pipeline as it executes. Overall, it is a strong
 AI-agent engineering prototype with meaningful orchestration, external-service integration, persistence, and a polished UI.
 
-#2. Problem Statement
+2. Problem Statement
 
 Traditional travel planning requires a user to manually research flights, accommodation, weather, and daily activities across
 different websites. The goal of this system is to convert a high-level request such as “Plan a 7-day Japan trip including
