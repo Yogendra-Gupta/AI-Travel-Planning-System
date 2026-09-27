@@ -32,31 +32,31 @@ required, persist graph state, and present the resulting plan in a usable interf
 ---
 
 ## Technology Stack
-Python 3.13
-LangGraph 1.2.0
-LangChain 1.3.1 ecosystem
-Groq / ChatGroq
-MCP 1.27.2
-PostgreSQL + psycopg
-Streamlit 1.57.0
-ReportLab
-Docker / Docker Compose
-AviationStack / OpenWeatherMap / Tavily
+- Python 3.13
+- LangGraph 1.2.0
+- LangChain 1.3.1 ecosystem
+- Groq / ChatGroq
+- MCP 1.27.2
+- PostgreSQL + psycopg
+- Streamlit 1.57.0
+- ReportLab
+- Docker / Docker Compose
+- AviationStack / OpenWeatherMap / Tavily
 
 ---
 
 ## Complete Sequential Execution Flow
 
-**Step 1** — User Input: The user enters a natural-language travel request in the Streamlit UI or terminal. The request is stored as user_query and also added to the graph's messages state.
-**Step 2** — Flight Agent: The node requests airport and airline data from the AviationStack MCP integration. It builds a
+- **Step 1** — User Input: The user enters a natural-language travel request in the Streamlit UI or terminal. The request is stored as user_query and also added to the graph's messages state.
+- **Step 2** — Flight Agent: The node requests airport and airline data from the AviationStack MCP integration. It builds a
 constrained prompt asking for likely departure/arrival airports, airlines, typical duration, estimated airfare range,
 peak-season warning, and booking advice. Groq LLaMA 3.3 70B generates the guidance and stores it in flight_results.
-**Step 3** — Hotel Agent: The node converts the request into a query such as “Best hotels for ” and calls the Tavily MCP search tool. The returned search data is stored in hotel_results. This stage is primarily retrieval-oriented rather than an LLM synthesis stage.
-**Step 4** — Weather Agent: The system calls extract_destination(), which uses the LLM to identify the destination city/country
+- **Step 3** — Hotel Agent: The node converts the request into a query such as “Best hotels for ” and calls the Tavily MCP search tool. The returned search data is stored in hotel_results. This stage is primarily retrieval-oriented rather than an LLM synthesis stage.
+- **Step 4** — Weather Agent: The system calls extract_destination(), which uses the LLM to identify the destination city/country
 from the user's request. It then calls the custom weather MCP server twice: get_current_weather and get_forecast. The combined output is stored in weather_results.
-**Step 5** — Itinerary Agent: The system constructs a prompt containing the original request plus flight, hotel, and weather results. Groq LLaMA 3.3 70B synthesizes these inputs into a travel itinerary, which is stored in itinerary.
-**Step 6** — Persistence: LangGraph's PostgreSQL checkpointer persists graph state for the configured thread_id. This gives the application a foundation for maintaining state across interactions rather than relying only on in-memory variables.
-**Step 7** — Streaming UI: Streamlit consumes graph updates and displays the completed Flight, Hotel, Weather, and Itinerary stages. The generated content can be saved as a Markdown travel-plan file and downloaded from the UI.
+- **Step 5** — Itinerary Agent: The system constructs a prompt containing the original request plus flight, hotel, and weather results. Groq LLaMA 3.3 70B synthesizes these inputs into a travel itinerary, which is stored in itinerary.
+- **Step 6** — Persistence: LangGraph's PostgreSQL checkpointer persists graph state for the configured thread_id. This gives the application a foundation for maintaining state across interactions rather than relying only on in-memory variables.
+- **Step 7** — Streaming UI: Streamlit consumes graph updates and displays the completed Flight, Hotel, Weather, and Itinerary stages. The generated content can be saved as a Markdown travel-plan file and downloaded from the UI.
 
 ---
 
